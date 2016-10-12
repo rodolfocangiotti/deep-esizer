@@ -1,0 +1,103 @@
+{
+	"patcher" : 	{
+		"fileversion" : 1,
+		"appversion" : 		{
+			"major" : 7,
+			"minor" : 1,
+			"revision" : 0,
+			"architecture" : "x86",
+			"modernui" : 1
+		}
+,
+		"rect" : [ 34.0, 78.0, 966.0, 718.0 ],
+		"editing_bgcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
+		"bglocked" : 0,
+		"openinpresentation" : 0,
+		"default_fontsize" : 12.0,
+		"default_fontface" : 0,
+		"default_fontname" : "Arial",
+		"gridonopen" : 2,
+		"gridsize" : [ 15.0, 15.0 ],
+		"gridsnaponopen" : 2,
+		"objectsnaponopen" : 1,
+		"statusbarvisible" : 2,
+		"toolbarvisible" : 1,
+		"lefttoolbarpinned" : 0,
+		"toptoolbarpinned" : 0,
+		"righttoolbarpinned" : 0,
+		"bottomtoolbarpinned" : 0,
+		"toolbars_unpinned_last_save" : 0,
+		"tallnewobj" : 0,
+		"boxanimatetime" : 200,
+		"enablehscroll" : 1,
+		"enablevscroll" : 1,
+		"devicewidth" : 0.0,
+		"description" : "",
+		"digest" : "",
+		"tags" : "",
+		"style" : "",
+		"subpatcher_template" : "",
+		"boxes" : [ 			{
+				"box" : 				{
+					"code" : "History oneSampleDelayOneONE(0);\r\nHistory oneSampleDelayTwoONE(0);\r\nHistory oneSampleDelayThreeONE(0);\r\n\nHistory oneSampleDelayOneTWO(0);\r\nHistory oneSampleDelayTwoTWO(0);\r\nHistory oneSampleDelayThreeTWO(0);\n\nHistory oneSampleDelayOneTHREE(0);\r\nHistory oneSampleDelayTwoTHREE(0);\r\nHistory oneSampleDelayThreeTHREE(0);\r\n\nHistory oneSampleDelayOneFOUR(0);\r\nHistory oneSampleDelayTwoFOUR(0);\r\nHistory oneSampleDelayThreeFOUR(0);\n\n\n// UNIT n.1\r\n// The following statements implement the upsampling of the input signal using the 4 point interpolation.\n\r\ninputSignal = in1;\r\n\r\nzMinusOneONE = oneSampleDelayOneONE;\r\nzMinusTwoONE = oneSampleDelayTwoONE;\r\nzMinusThreeONE = oneSampleDelayThreeONE;\n\n\r\nxZeroMinusOneONE = zMinusThreeONE;\nxZeroONE = zMinusTwoONE;\nxZeroPlusOneONE = zMinusOneONE;\nxZeroPlusTwoONE = inputSignal;\n\n\nfOneONE = 0.25;\n\r\nblockOneONE = fOneONE - 1;\r\nblockTwoONE = fOneONE - 2;\r\nblockThreeONE = fOneONE + 1;\r\n\r\noperationOneONE = fOneONE * -1 * blockOneONE * blockTwoONE / 6;\r\noperationTwoONE = blockOneONE * blockTwoONE * blockThreeONE * 0.5;\r\noperationThreeONE = fOneONE * -1 * blockTwoONE * blockThreeONE * 0.5;\r\noperationFourONE = fOneONE * blockOneONE * blockThreeONE / 6;\r\n\r\ninterpolationOutputOneONE = xZeroMinusOneONE * operationOneONE + xZeroONE * operationTwoONE + xZeroPlusOneONE * operationThreeONE + xZeroPlusTwoONE * operationFourONE;\n\n\nfTwoONE = 0.5;\n\r\nblockFourONE = fTwoONE - 1;\r\nblockFiveONE = fTwoONE - 2;\r\nblockSixONE = fTwoONE + 1;\r\n\r\noperationFiveONE = fTwoONE * -1 * blockFourONE * blockFiveONE / 6;\r\noperationSixONE = blockFourONE * blockFiveONE * blockSixONE * 0.5;\r\noperationSevenONE = fTwoONE * -1 * blockFiveONE * blockSixONE * 0.5;\r\noperationEightONE = fTwoONE * blockFourONE * blockSixONE / 6;\r\n\r\ninterpolationOutputTwoONE = xZeroMinusOneONE * operationFiveONE + xZeroONE * operationSixONE + xZeroPlusOneONE * operationSevenONE + xZeroPlusTwoONE * operationEightONE;\r\n\n\nfThreeONE = 0.75;\n\r\nblockSevenONE = fThreeONE - 1;\r\nblockEightONE = fThreeONE - 2;\r\nblockNineONE = fThreeONE + 1;\r\n\r\noperationNineONE = fThreeONE * -1 * blockSevenONE * blockEightONE / 6;\r\noperationTenONE = blockSevenONE * blockEightONE * blockNineONE * 0.5;\r\noperationElevenONE = fThreeONE * -1 * blockEightONE * blockNineONE * 0.5;\r\noperationTwelveONE = fThreeONE * blockSevenONE * blockNineONE / 6;\r\n\r\ninterpolationOutputThreeONE = xZeroMinusOneONE * operationNineONE + xZeroONE * operationTenONE + xZeroPlusOneONE * operationElevenONE + xZeroPlusTwoONE * operationTwelveONE;\n\n\r\n\r\n\r\n// The following operations limit the amplitude of the upsampled signal\r\nsaturationOutputOne = tanh(xZeroONE);\r\nsaturationOutputTwo = tanh(interpolationOutputOneONE);\nsaturationOutputThree = tanh(interpolationOutputTwoONE);\nsaturationOutputFour = tanh(interpolationOutputThreeONE);\r\n\n\r\n\r\n\r\n// UNIT n.2\r\n// The following statements calculate the value of the output signal considering a fractional sample value.\r\n\r\nzMinusOneTWO = oneSampleDelayOneTWO;\r\nzMinusTwoTWO = oneSampleDelayTwoTWO;\r\nzMinusThreeTWO = oneSampleDelayThreeTWO;\n\n\r\nxZeroMinusOneTWO = zMinusThreeTWO;\nxZeroTWO = zMinusTwoTWO;\nxZeroPlusOneTWO = zMinusOneTWO;\nxZeroPlusTwoTWO = saturationOutputTwo;\n\n\nfOneTWO = 0.25;\n\r\nblockOneTWO = fOneTWO - 1;\r\nblockTwoTWO = fOneTWO - 2;\r\nblockThreeTWO = fOneTWO + 1;\r\n\r\noperationOneTWO = fOneTWO * -1 * blockOneTWO * blockTwoTWO / 6;\r\noperationTwoTWO = blockOneTWO * blockTwoTWO * blockThreeTWO * 0.5;\r\noperationThreeTWO = fOneTWO * -1 * blockTwoTWO * blockThreeTWO * 0.5;\r\noperationFourTWO = fOneTWO * blockOneTWO * blockThreeTWO / 6;\r\n\r\ninterpolationOutputOneTWO = xZeroMinusOneTWO * operationOneTWO + xZeroTWO * operationTwoTWO + xZeroPlusOneTWO * operationThreeTWO + xZeroPlusTwoTWO * operationFourTWO;\n\n\n\r\n\n// UNIT n.3\r\n// The following statements calculate the value of the output signal considering a fractional sample value.\r\n\r\nzMinusOneTHREE = oneSampleDelayOneTHREE;\r\nzMinusTwoTHREE = oneSampleDelayTwoTHREE;\r\nzMinusThreeTHREE = oneSampleDelayThreeTHREE;\n\n\r\nxZeroMinusOneTHREE = zMinusThreeTHREE;\nxZeroTHREE = zMinusTwoTHREE;\nxZeroPlusOneTHREE = zMinusOneTHREE;\nxZeroPlusTwoTHREE = saturationOutputThree;\n\n\nfOneTHREE = 0.5;\n\r\nblockOneTHREE = fOneTHREE - 1;\r\nblockTwoTHREE = fOneTHREE - 2;\r\nblockThreeTHREE = fOneTHREE + 1;\r\n\r\noperationOneTHREE = fOneTHREE * -1 * blockOneTHREE * blockTwoTHREE / 6;\r\noperationTwoTHREE = blockOneTHREE * blockTwoTHREE * blockThreeTHREE * 0.5;\r\noperationThreeTHREE = fOneTHREE * -1 * blockTwoTHREE * blockThreeTHREE * 0.5;\r\noperationFourTHREE = fOneTHREE * blockOneTHREE * blockThreeTHREE / 6;\r\n\r\ninterpolationOutputOneTHREE = xZeroMinusOneTHREE * operationOneTHREE + xZeroTHREE * operationTwoTHREE + xZeroPlusOneTHREE * operationThreeTHREE + xZeroPlusTwoTHREE * operationFourTHREE;\n\n\n\r\n\n// UNIT n.4\r\n// The following statements calculate the value of the output signal considering a fractional sample value.\r\n\r\nzMinusOneFOUR = oneSampleDelayOneFOUR;\r\nzMinusTwoFOUR = oneSampleDelayTwoFOUR;\r\nzMinusThreeFOUR = oneSampleDelayThreeFOUR;\n\n\r\nxZeroMinusOneFOUR = zMinusThreeFOUR;\nxZeroFOUR = zMinusTwoFOUR;\nxZeroPlusOneFOUR = zMinusOneFOUR;\nxZeroPlusTwoFOUR = saturationOutputFour;\n\n\nfOneFOUR = 0.75;\n\r\nblockOneFOUR = fOneFOUR - 1;\r\nblockTwoFOUR = fOneFOUR - 2;\r\nblockThreeFOUR = fOneFOUR + 1;\r\n\r\noperationOneFOUR = fOneFOUR * -1 * blockOneFOUR * blockTwoFOUR / 6;\r\noperationTwoFOUR = blockOneFOUR * blockTwoFOUR * blockThreeFOUR * 0.5;\r\noperationThreeFOUR = fOneFOUR * -1 * blockTwoFOUR * blockThreeFOUR * 0.5;\r\noperationFourFOUR = fOneFOUR * blockOneFOUR * blockThreeFOUR / 6;\r\n\r\ninterpolationOutputOneFOUR = xZeroMinusOneFOUR * operationOneFOUR + xZeroFOUR * operationTwoFOUR + xZeroPlusOneFOUR * operationThreeFOUR + xZeroPlusTwoFOUR * operationFourFOUR;\n\n\n\n\r\n// The following statements calculates an average value between all the fractional sample values.\ndownsamplingOutput = (saturationOutputOne + interpolationOutputOneTWO +interpolationOutputOneTHREE + interpolationOutputOneFOUR) * 0.25;\nout1 = downsamplingOutput;\r\n\n\n\n\r\n// Z(-1) Updates\r\noneSampleDelayOneONE = inputSignal;\r\noneSampleDelayTwoONE = zMinusOneONE;\r\noneSampleDelayThreeONE = zMinusTwoONE;\n\noneSampleDelayOneTWO = saturationOutputTwo;\r\noneSampleDelayTwoTWO = zMinusOneTWO;\r\noneSampleDelayThreeTWO = zMinusTwoTWO;\n\noneSampleDelayOneTHREE = saturationOutputThree;\r\noneSampleDelayTwoTHREE = zMinusOneTHREE;\r\noneSampleDelayThreeTHREE = zMinusTwoTHREE;\n\noneSampleDelayOneFOUR = saturationOutputFour;\r\noneSampleDelayTwoFOUR = zMinusOneFOUR;\r\noneSampleDelayThreeFOUR = zMinusTwoFOUR;",
+					"fontface" : 0,
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-5",
+					"maxclass" : "codebox",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 45.0, 90.0, 750.0, 345.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 45.0, 45.0, 161.0, 22.0 ],
+					"style" : "",
+					"text" : "in 1 @comment Input Signal"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 45.0, 465.0, 178.0, 22.0 ],
+					"style" : "",
+					"text" : "out 1 @comment Output Signal"
+				}
+
+			}
+ ],
+		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+ ]
+	}
+
+}
